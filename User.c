@@ -23,9 +23,9 @@ void listUsers(){
 
 void registerNewUser(){
     char fullName[20];
-    char nickname[5];
-    char password[8];
-    char password2[8];
+    char nickname[8];
+    char password[16];
+    char password2[16];
 
     printf( "\nIntroduzca su nombre completo(20 caracteres maximo):  \n" );
     gets( fullName );
@@ -70,6 +70,9 @@ void loadUsers(){
         while(fgets(str, 52, file) != NULL){
             T_User a;
 
+            aux = strtok( str, "\n" ); //Quito el \n del salto de linea
+            strcpy(str, aux);
+
             aux = strtok( str, "-" );
             a.ID = atoi( aux );
 
@@ -103,7 +106,7 @@ void saveUsers(){
         printf("ERROR: Error de lectura/escritura del archivo.");
     }else{
         for( i = 0 ; i < tam ; i++ ){
-            sprintf( str, "%02d-%s-%s-%s-%s\0", usr[i].ID, usr[i].fullName, usr[i].type, usr[i].nickname, usr[i].password );
+            sprintf( str, "%02d-%s-%s-%s-%s\n", usr[i].ID, usr[i].fullName, usr[i].type, usr[i].nickname, usr[i].password );
             fputs( str, file );
         }
         fclose(file);
