@@ -1,0 +1,39 @@
+# depslib dependency file v1.0
+1431446756 source:c:\users\tote\documents\ligafantasymp\main.c
+	<stdlib.h>
+	"User.h"
+
+1431390711 
+
+1431390711 c:\users\tote\documents\ligafantasymp\user.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1431446328 source:c:\users\tote\documents\ligafantasymp\user.c
+	"User.h"
+
+1431615847 source:/home/tote/Documents/LigaFantasyMP/Main.c
+	<stdlib.h>
+	"User.h"
+
+1431614937 /home/tote/Documents/LigaFantasyMP/User.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1431615735 source:/home/tote/Documents/LigaFantasyMP/User.c
+	"User.h"
+
+1431610596 source:c:\users\tote\desktop\ligafantasymp\main.c
+	<stdlib.h>
+	"User.h"
+
+1431610221 c:\users\tote\desktop\ligafantasymp\user.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1431610844 source:c:\users\tote\desktop\ligafantasymp\user.c
+	"User.h"
+
