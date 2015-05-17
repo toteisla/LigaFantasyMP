@@ -15,7 +15,7 @@ void listUsers(){
     char str[ 52 ];
     printf( "\nLista de usuarios:\n" );
     for( i = 0 ; i < tam ; i++){
-        sprintf( str, "%02d-%s-%s-%s-%s", usr[i].ID, usr[i].fullName, usr[i].type, usr[i].nickname, usr[i].password );
+        sprintf( str, "%02d-%s-%s-%s-%s", usr[i].ID, usr[i].fullName, usr[i].type, usr[i].username, usr[i].password );
         printf( "%s\n", str );
     }
     printf( "\n" );
@@ -23,7 +23,7 @@ void listUsers(){
 
 void registerNewUser(){
     char fullName[20];
-    char nickname[8];
+    char username[8];
     char password[16];
     char password2[16];
 
@@ -32,10 +32,10 @@ void registerNewUser(){
     fflush( stdin );
 
     do{
-        printf( "\nIntroduzca el nickname que desee(5 caracteres maximo):  \n" );
-        gets( nickname );
+        printf( "\nIntroduzca el username que desee(5 caracteres maximo):  \n" );
+        gets( username );
         fflush( stdin );
-    }while( nicknameUsed( nickname ));
+    }while( usernameUsed( username ));
 
     do{
         printf( "\nIntroduzca su contraseña(8 carácteres máximo):  \n" );
@@ -51,7 +51,7 @@ void registerNewUser(){
     usr[ tam ].ID = tam;
     strcpy( usr[tam].fullName, fullName );
     strcpy( usr[tam].type, "Participante" );
-    strcpy( usr[tam].nickname, nickname );
+    strcpy( usr[tam].username, username );
     strcpy( usr[tam].password, password );
     tam++;
 }
@@ -64,7 +64,7 @@ void loadUsers(){
 	if(( file = fopen( "Usuarios.txt" , "r" )) == NULL ){
 		printf("ERROR: No existe el archivo 'Usuarios.txt'\n");
 	}else{
-        //char str[52] , cod[2], fullname[20], type[13], nickname[5], password[8];
+        //char str[52] , cod[2], fullname[20], type[13], username[5], password[8];
         char str[52];
         char* aux;
         while(fgets(str, 52, file) != NULL){
@@ -83,7 +83,7 @@ void loadUsers(){
             strcpy(a.type , aux);
 
             aux = strtok( NULL, "-" );
-            strcpy(a.nickname , aux);
+            strcpy(a.username , aux);
 
             aux = strtok( NULL, "-" );
             strcpy(a.password , aux);
@@ -106,7 +106,7 @@ void saveUsers(){
         printf("ERROR: Error de lectura/escritura del archivo.");
     }else{
         for( i = 0 ; i < tam ; i++ ){
-            sprintf( str, "%02d-%s-%s-%s-%s", usr[i].ID, usr[i].fullName, usr[i].type, usr[i].nickname, usr[i].password );
+            sprintf( str, "%02d-%s-%s-%s-%s", usr[i].ID, usr[i].fullName, usr[i].type, usr[i].username, usr[i].password );
             if( i != tam - 1) //Evita una linea vacia al final del archivo
                 strcat(str, "\n");
             fputs( str, file );
@@ -115,11 +115,11 @@ void saveUsers(){
     }
 }
 
-int nicknameUsed(char* nickname){
+int usernameUsed(char* username){
     int i;
     char error[256];
     for( i = 0 ; i < tam ; i++ ){
-        if( strcmp(usr[i].nickname, nickname) == 0){
+        if( strcmp(usr[i].username, username) == 0){
             /*
             time_t tiempo = time(0);
             struct tm *tlocal = localtime(&tiempo);
@@ -128,11 +128,32 @@ int nicknameUsed(char* nickname){
             sprintf(error,"[%s]: Se ha intentado anadir un articulo con codigo %d\n ",output,cod);
             add_error(error);
             */
-            printf("Ya existe un usuario con ese nickname.\n");
+            printf("Ya existe un usuario con ese username.\n");
             return 1;
         }
     }
     return 0;
+}
+
+T_User login(){
+    int i;
+    char username[20];
+    char password[16];
+
+    printf("Introduzca nombre de usuario:  \n");
+    gets( username );
+    fflush( stdin );
+
+    printf("Introduzca contraseña:  \n");
+    gets( password );
+    fflush( stdin );
+
+    for( i = 0 ; i < tam ; i++ ){
+        if( strcmp(usr[i].username, username) == 0 && strcmp(usr[i].password, password) == 0 )
+            return usr[i];
+    }
+    T_User a = { .ID = -1, .fullName = "Unregistered", .type = "Unregistered", .username = "Unregistered", .password = "Unregistered" };
+    return a;
 }
 
 

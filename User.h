@@ -9,7 +9,7 @@ typedef struct {
     int ID;
     char fullName[32];
     char type[16];
-    char nickname[8];
+    char username[8];
     char password[16];
 
 }T_User;
@@ -19,6 +19,8 @@ void deleteUser();
 void listUsers();
 void saveUsers();
 void loadUsers();
-int nicknameUsed(char* nickname);
+int usernameUsed( char* username );
+T_User login();
+char* getUserType();
 
 #endif // _USERS_H_

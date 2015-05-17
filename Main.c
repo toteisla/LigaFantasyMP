@@ -17,6 +17,7 @@ int main() {
 
 static void showMainMenu(){
     int op;
+    T_User user;
     do{
         printf("------------------------------------Menu---------------------------------------- \n");
 
@@ -34,6 +35,16 @@ static void showMainMenu(){
                 fflush( stdin );
                 break;
             case 2:
+
+                user = login();
+                if( user.ID == -1 )
+                    printf( "[ERROR]Usuario y contraseña no coinciden.\n" );
+                else if( strcmp( user.type, "Administrador" ) == 0 )
+                    showAdminMenu();
+                else if( strcmp( user.type, "Cronista" ) == 0 )
+                    showRefereeMenu();
+                 else if( strcmp( user.type, "Participante" ) == 0 )
+                    showUserMenu();
                 break;
             case 3:
                 showUserMenuTest();
@@ -152,9 +163,10 @@ static void showAdminMenu(){
     do{
         printf("------------------------------------Menu---------------------------------------- \n");
 
-        puts("1.Listar equipos.\n");
-        puts("2.Valorar Equipos.\n");
-        puts("3.Salir/Exit.\n");
+        puts("1.Equipos.\n");
+        puts("2.Usuarios.\n");
+        puts("3.Configuracion\n");
+        puts("4.Salir del programa\n");
         puts("Introduzca una opcion: ");
         scanf("%d", &op);
 
