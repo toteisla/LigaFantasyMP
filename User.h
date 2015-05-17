@@ -15,6 +15,7 @@ typedef struct {
 }T_User;
 
 void registerNewUser();
+void registerNewUserByAdmin();
 void deleteUser();
 void listUsers();
 void saveUsers();

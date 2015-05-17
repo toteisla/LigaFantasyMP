@@ -21,6 +21,7 @@ void listUsers(){
     printf( "\n" );
 }
 
+//Register a new user from main menu before log into the system.
 void registerNewUser(){
     char fullName[20];
     char username[8];
@@ -56,6 +57,93 @@ void registerNewUser(){
     tam++;
 }
 
+//Regiter a new user from Admin menu. Can choose the type of the new user.
+void registerNewUserByAdmin(){
+    int op;
+    char* aux;
+    char strOp[8];
+    char fullName[20];
+    char username[8];
+    char type[16];
+    char password[16];
+    char password2[16];
+
+    printf( "\nIntroduzca su nombre completo(20 caracteres maximo):  \n" );
+    gets( fullName );
+    fflush( stdin );
+
+    do{
+        printf( "\nIntroduzca el username que desee(5 caracteres maximo):  \n" );
+        gets( username );
+        fflush( stdin );
+    }while( usernameUsed( username ));
+
+    do{
+        printf("------------------[Elige el tipo de usuario]------------------ \n");
+        puts("1.Administrador.\n");
+        puts("2.Cronista.\n");
+        puts("3.Participante\n");
+        puts("Introduzca una opcion: ");
+        gets( strOp );
+        aux = strtok( strOp, "\n" );
+        fflush( stdin );
+
+        op = atoi( aux );
+        switch( op ){
+            case 1:
+                strcpy(type, "Administrador");
+                break;
+            case 2:
+                strcpy(type, "Cronista");
+                break;
+            case 3:
+                strcpy(type, "Participante");
+                break;
+            default:
+                printf("Opcion incorrecta\n");
+        }
+    }while( op < 0 || op > 4 );
+
+    do{
+        printf( "\nIntroduzca su contraseña(8 carácteres máximo):  \n" );
+        gets( password );
+        fflush( stdin );
+
+        printf( "\nVuelva a repetir la contraseña para confirmar(8 carácteres máximo):  \n" );
+        gets( password2 );
+        fflush( stdin );
+    }while( strcmp( password, password2) != 0 );
+
+    usr = (T_User *) realloc(usr, ( tam + 1 ) * sizeof( T_User ));
+    usr[ tam ].ID = tam;
+    strcpy( usr[tam].fullName, fullName );
+    strcpy( usr[tam].type, type );
+    strcpy( usr[tam].username, username );
+    strcpy( usr[tam].password, password );
+    tam++;
+}
+
+//Remove a user and reallocate the vector to fix the empty position.
+void deleteUser(){
+    int cod, i, aux;
+
+    printf( "\nIntroduzca el codigo del usuario:  \n" );
+    scanf( "%d", &cod );
+    fflush( stdin );
+
+    for( i=0 ; i < tam ; i++ ){
+        if( usr[i].ID == cod ) {
+            aux = 1;
+            i++;
+        }
+        if( aux == 1 )
+            usr[i-1] = usr[i];
+    }
+    if(aux == 1)
+        usr = ( T_User * ) realloc( usr, ( --tam )*sizeof( T_User ));
+}
+
+//Load the user list from 'Usuarios.txt'.
 void loadUsers(){
     usr = ( T_User * ) calloc(0, sizeof( T_User ));
 	FILE *file;
@@ -70,7 +158,7 @@ void loadUsers(){
         while(fgets(str, 52, file) != NULL){
             T_User a;
 
-            aux = strtok( str, "\n" ); //Quito el \n del salto de linea
+            aux = strtok( str, "\n" ); //Take away \n readed from the file.
             strcpy(str, aux);
 
             aux = strtok( str, "-" );
@@ -97,6 +185,7 @@ void loadUsers(){
     }
 }
 
+//Save the user list to 'Usuarios.txt'.
 void saveUsers(){
     int i;
     char str[60];
@@ -107,7 +196,7 @@ void saveUsers(){
     }else{
         for( i = 0 ; i < tam ; i++ ){
             sprintf( str, "%02d-%s-%s-%s-%s", usr[i].ID, usr[i].fullName, usr[i].type, usr[i].username, usr[i].password );
-            if( i != tam - 1) //Evita una linea vacia al final del archivo
+            if( i != tam - 1) //Fix the \n on the last line.
                 strcat(str, "\n");
             fputs( str, file );
         }
@@ -115,19 +204,12 @@ void saveUsers(){
     }
 }
 
+//Check if the username is in use.
 int usernameUsed(char* username){
     int i;
     char error[256];
     for( i = 0 ; i < tam ; i++ ){
         if( strcmp(usr[i].username, username) == 0){
-            /*
-            time_t tiempo = time(0);
-            struct tm *tlocal = localtime(&tiempo);
-            char output[128];
-            strftime(output,128,"%d/%m/%y %H:%M:%S",tlocal);
-            sprintf(error,"[%s]: Se ha intentado anadir un articulo con codigo %d\n ",output,cod);
-            add_error(error);
-            */
             printf("Ya existe un usuario con ese username.\n");
             return 1;
         }
@@ -135,6 +217,7 @@ int usernameUsed(char* username){
     return 0;
 }
 
+//Check if the credentials introduced match with the user list.
 T_User login(){
     int i;
     char username[20];

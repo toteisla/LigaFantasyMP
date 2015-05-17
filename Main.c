@@ -5,7 +5,8 @@ static void showMainMenu();
 static void showUserMenu();
 static void showUserMenuTest();
 static void showRefereeMenu ();
-static void showAdminMenu ();
+static void showAdminMenu();
+static void showAdminMenuUser();
 
 int main() {
     loadUsers();
@@ -174,6 +175,7 @@ static void showAdminMenu(){
             case 1:
                 break;
             case 2:
+                showAdminMenuUser();
                 break;
             case 3:
                 break;
@@ -185,4 +187,40 @@ static void showAdminMenu(){
                 break;
         }
     }while( op != 4 );
+}
+
+static void showAdminMenuUser(){
+    int op;
+    do{
+        printf("------------------------------------Menu---------------------------------------- \n");
+
+        puts("1.Listar usuarios.\n");
+        puts("2.Añadir nuevo usuario.\n");
+        puts("3.Modificar usuario existente.\n");
+        puts("4.Eliminar usuario existente.\n");
+        puts("5.Salir del sistema\n");
+        puts("Introduzca una opcion: ");
+        scanf("%d", &op);
+        fflush( stdin );
+
+        switch( op ){
+            case 1:
+                listUsers();
+                break;
+            case 2:
+                registerNewUserByAdmin();
+                break;
+            case 3:
+                break;
+            case 4:
+                deleteUser();
+                break;
+            case 5:
+                //exit(1);
+                break;
+            default:
+                printf("Opcion incorrecta\n");
+                break;
+        }
+    }while( op != 5 );
 }
