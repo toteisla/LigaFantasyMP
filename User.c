@@ -106,7 +106,9 @@ void saveUsers(){
         printf("ERROR: Error de lectura/escritura del archivo.");
     }else{
         for( i = 0 ; i < tam ; i++ ){
-            sprintf( str, "%02d-%s-%s-%s-%s\n", usr[i].ID, usr[i].fullName, usr[i].type, usr[i].nickname, usr[i].password );
+            sprintf( str, "%02d-%s-%s-%s-%s", usr[i].ID, usr[i].fullName, usr[i].type, usr[i].nickname, usr[i].password );
+            if( i != tam - 1) //Evita una linea vacia al final del archivo
+                strcat(str, "\n");
             fputs( str, file );
         }
         fclose(file);
