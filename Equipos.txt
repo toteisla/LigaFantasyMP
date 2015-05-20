@@ -1,0 +1,4 @@
+00-RealMadrid
+01-Barcelona
+02-Atletico de Madrid
+03-Sevilla

@@ -1,16 +1,31 @@
 #include <stdlib.h>
 #include "User.h"
+#include "Team.h"
+#include "Player.h"
+#include "Config.h"
 
 static void showMainMenu();
 static void showUserMenu();
-static void showUserMenuTest();
+static void showUserMenuConfigRoster();
 static void showRefereeMenu ();
 static void showAdminMenu();
 static void showAdminMenuUser();
+static void showAdminMenuTeam();
+static void showAdminMenuConfig();
+
+static T_User user;
 
 int main() {
     loadUsers();
+    loadTeams();
+    loadPlayers();
+    loadConfig();
+    loadRosters();
+
     showMainMenu();
+    //showAdminMenuConfig();
+    //showRefereeMenu();
+    //showUserMenu();
 
 	system("pause");
 	return 0;
@@ -18,14 +33,12 @@ int main() {
 
 static void showMainMenu(){
     int op;
-    T_User user;
     do{
         printf("------------------------------------Menu---------------------------------------- \n");
 
         puts("1.Registro.\n");
         puts("2.Acceso al sistema.\n");
-        puts("3.User Module Test.\n");
-        puts("4.Salir/Exit.\n");
+        puts("3.Salir/Exit.\n");
         puts("Introduzca una opcion: ");
         scanf("%d", &op);
         fflush( stdin );
@@ -36,7 +49,6 @@ static void showMainMenu(){
                 fflush( stdin );
                 break;
             case 2:
-
                 user = login();
                 if( user.ID == -1 )
                     printf( "[ERROR]Usuario y contraseña no coinciden.\n" );
@@ -48,54 +60,15 @@ static void showMainMenu(){
                     showUserMenu();
                 break;
             case 3:
-                showUserMenuTest();
-                break;
-            case 4:
-                //guardar_stock();guardar_articulos();
-                saveUsers();
+                //saveConfig();
+                //saveTeams();
+                //saveUsers();
                 exit(1);
             default:
                 printf("Opcion incorrecta\n");
                 break;
         }
-    }while( op != 4 );
-}
-
-static void showUserMenuTest(){
-    int op;
-    do{
-        printf("------------------------------------Menu---------------------------------------- \n");
-
-        puts("1.List Users.\n");
-        puts("2.Save Users.\n");
-        puts("3.\n");
-        puts("4.\n");
-        puts("5.\n");
-        puts("6.Back\n");
-        puts("Introduzca una opcion: ");
-        scanf("%d", &op);
-
-        switch( op ){
-            case 1:
-                listUsers();
-                break;
-            case 2:
-                saveUsers();
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                //guardar_stock();guardar_articulos();guardar_almacenes();exit(1);
-                break;
-            default:
-                printf("Opcion incorrecta\n");
-                break;
-        }
-    }while( op != 6 );
+    }while( op != 3 );
 }
 
 static void showUserMenu(){
@@ -111,17 +84,23 @@ static void showUserMenu(){
         puts("6.Salir del programa.\n");
         puts("Introduzca una opcion: ");
         scanf("%d", &op);
+        fflush( stdin );
 
         switch( op ){
             case 1:
+                registerNewRoster( user.ID );
                 break;
             case 2:
+                showUserMenuConfigRoster();
                 break;
             case 3:
+                listRostersByUserID( user.ID );
                 break;
             case 4:
+                deleteRoster( user.ID );
                 break;
             case 5:
+                showRostersRanking();
                 break;
             case 6:
                 //guardar_stock();guardar_articulos();guardar_almacenes();exit(1);
@@ -131,6 +110,40 @@ static void showUserMenu(){
                 break;
         }
     }while( op != 6 );
+}
+
+static void showUserMenuConfigRoster(){
+    int op;
+    do{
+        printf("------------------------------------Menu---------------------------------------- \n");
+
+        puts("1.Lista de jugadores en plantilla.\n");
+        puts("2.Lista de jugadores displonibles.\n");
+        puts("3.Añadir jugador a plantilla.\n");
+        puts("4.Eliminar jugador de plantilla.\n");
+        puts("5.volver.\n");
+        puts("Introduzca una opcion: ");
+        scanf("%d", &op);
+        fflush( stdin );
+
+        switch( op ){
+            case 1:
+                //listRostersByUserID()
+                break;
+            case 2:
+                listPlayers();
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            default:
+                printf("Opcion incorrecta\n");
+                break;
+        }
+    }while( op != 5 );
 }
 
 static void showRefereeMenu(){
@@ -143,11 +156,14 @@ static void showRefereeMenu(){
         puts("3.Salir/Exit.\n");
         puts("Introduzca una opcion: ");
         scanf("%d", &op);
+        fflush( stdin );
 
         switch( op ){
             case 1:
+                listTeams();
                 break;
             case 2:
+                ratePlayer();
                 break;
             case 3:
                 //guardar_stock();guardar_articulos();guardar_almacenes();exit(1);
@@ -170,17 +186,53 @@ static void showAdminMenu(){
         puts("4.Salir del programa\n");
         puts("Introduzca una opcion: ");
         scanf("%d", &op);
+        fflush( stdin );
 
         switch( op ){
             case 1:
+                showAdminMenuTeam();
                 break;
             case 2:
                 showAdminMenuUser();
                 break;
             case 3:
+                showAdminMenuConfig();
                 break;
             case 4:
                 //guardar_stock();guardar_articulos();guardar_almacenes();exit(1);
+                break;
+            default:
+                printf("Opcion incorrecta\n");
+                break;
+        }
+    }while( op != 4 );
+}
+
+static void showAdminMenuConfig(){
+    int op;
+    do{
+        printf("------------------------------------Menu---------------------------------------- \n");
+
+        puts("1.Editar numero maximo de equipos por usuario.\n");
+        puts("2.Editar presupuesto inicial.\n");
+        puts("3.Editar numero jugadores por equipo \n");
+        puts("4.Salir del programa\n");
+        puts("Introduzca una opcion: ");
+        scanf("%d", &op);
+        fflush( stdin );
+
+        switch( op ){
+            case 1:
+                setMaxTeams();
+                break;
+            case 2:
+                setDefaultInitMoney();
+                break;
+            case 3:
+                setMaxPlayersPerTeam();
+                break;
+            case 4:
+                //exit(1);
                 break;
             default:
                 printf("Opcion incorrecta\n");
@@ -214,6 +266,42 @@ static void showAdminMenuUser(){
                 break;
             case 4:
                 deleteUser();
+                break;
+            case 5:
+                //exit(1);
+                break;
+            default:
+                printf("Opcion incorrecta\n");
+                break;
+        }
+    }while( op != 5 );
+}
+
+static void showAdminMenuTeam(){
+    int op;
+    do{
+        printf("------------------------------------Menu---------------------------------------- \n");
+
+        puts("1.Listar equipos.\n");
+        puts("2.Añadir nuevo equipo.\n");
+        puts("3.Modificar equipo existente.\n");
+        puts("4.Eliminar equipo existente.\n");
+        puts("5.Salir del sistema\n");
+        puts("Introduzca una opcion: ");
+        scanf("%d", &op);
+        fflush( stdin );
+
+        switch( op ){
+            case 1:
+                listTeams();
+                break;
+            case 2:
+                addNewTeam();
+                break;
+            case 3:
+                break;
+            case 4:
+                deleteTeam();
                 break;
             case 5:
                 //exit(1);

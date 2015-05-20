@@ -2,7 +2,8 @@
 
 //Private function declarations
 static void sortUsers();
-static int getLastID();
+static int getLastUserID();
+static int usernameUsed( char* username );
 
 //Private vars
 static T_User *usr;
@@ -10,7 +11,7 @@ static int tam; //Size of usr vector
 
 //Public functions
 void listUsers(){
-    //sortUsers();
+    sortUsers();
     int i;
     char str[ 52 ];
     printf( "\nLista de usuarios:\n" );
@@ -23,7 +24,8 @@ void listUsers(){
 
 //Register a new user from main menu before log into the system.
 void registerNewUser(){
-    char fullName[20];
+    int ID;
+    char fullName[32];
     char username[8];
     char password[16];
     char password2[16];
@@ -48,8 +50,12 @@ void registerNewUser(){
         fflush( stdin );
     }while( strcmp( password, password2) != 0 );
 
+    sortUsers();
+
     usr = (T_User *) realloc(usr, ( tam + 1 ) * sizeof( T_User ));
-    usr[ tam ].ID = tam;
+
+    ID = getLastUserID();
+    usr[ tam ].ID = ID;
     strcpy( usr[tam].fullName, fullName );
     strcpy( usr[tam].type, "Participante" );
     strcpy( usr[tam].username, username );
@@ -59,10 +65,10 @@ void registerNewUser(){
 
 //Regiter a new user from Admin menu. Can choose the type of the new user.
 void registerNewUserByAdmin(){
-    int op;
+    int op, ID;
     char* aux;
     char strOp[8];
-    char fullName[20];
+    char fullName[32];
     char username[8];
     char type[16];
     char password[16];
@@ -114,8 +120,12 @@ void registerNewUserByAdmin(){
         fflush( stdin );
     }while( strcmp( password, password2) != 0 );
 
+    sortUsers();
+
     usr = (T_User *) realloc(usr, ( tam + 1 ) * sizeof( T_User ));
-    usr[ tam ].ID = tam;
+
+    ID = getLastUserID();
+    usr[ tam ].ID = ID;
     strcpy( usr[tam].fullName, fullName );
     strcpy( usr[tam].type, type );
     strcpy( usr[tam].username, username );
@@ -205,9 +215,8 @@ void saveUsers(){
 }
 
 //Check if the username is in use.
-int usernameUsed(char* username){
+static int usernameUsed( char* username ){
     int i;
-    char error[256];
     for( i = 0 ; i < tam ; i++ ){
         if( strcmp(usr[i].username, username) == 0){
             printf("Ya existe un usuario con ese username.\n");
@@ -237,6 +246,50 @@ T_User login(){
     }
     T_User a = { .ID = -1, .fullName = "Unregistered", .type = "Unregistered", .username = "Unregistered", .password = "Unregistered" };
     return a;
+}
+
+//Return the first availible id.
+static int getLastUserID(){
+    int i;
+
+    sortUsers();
+    for( i = 0 ; i < tam ; i++ ){
+        if( usr[i].ID != i )
+            return i;
+    }
+}
+
+//Sort the user list by ID.
+static void sortUsers(){
+    int i, j, auxID;
+    char auxName[32];
+    char auxUser[8];
+    char auxType[16];
+    char auxPass[16];
+
+    for( i = 1 ; i <= tam ; i++ ){
+        for( j = 0 ; j <= tam - 2 ; j++ ){
+            if( usr[j].ID > usr[j+1].ID ){
+                auxID = usr[j].ID;
+                strcpy(auxName, usr[j].fullName);
+                strcpy(auxUser, usr[j].username);
+                strcpy(auxType, usr[j].type);
+                strcpy(auxPass, usr[j].password);
+
+                usr[j].ID = usr[j+1].ID;
+                strcpy(usr[j].fullName, usr[j+1].fullName);
+                strcpy(usr[j].username, usr[j+1].username);
+                strcpy(usr[j].type, usr[j+1].type);
+                strcpy(usr[j].password, usr[j+1].password);
+
+                usr[j+1].ID = auxID;
+                strcpy(usr[j+1].fullName, auxName);
+                strcpy(usr[j+1].username, auxUser);
+                strcpy(usr[j+1].type, auxType);
+                strcpy(usr[j+1].password, auxPass);
+            }
+        }
+    }
 }
 
 

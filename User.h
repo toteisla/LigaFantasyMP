@@ -20,7 +20,6 @@ void deleteUser();
 void listUsers();
 void saveUsers();
 void loadUsers();
-int usernameUsed( char* username );
 T_User login();
 char* getUserType();
 

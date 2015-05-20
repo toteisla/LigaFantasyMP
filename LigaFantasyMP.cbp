@@ -32,9 +32,25 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Config.h" />
 		<Unit filename="Main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="Player.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Player.h" />
+		<Unit filename="Roster.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Roster.h" />
+		<Unit filename="Team.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Team.h" />
 		<Unit filename="User.c">
 			<Option compilerVar="CC" />
 		</Unit>
