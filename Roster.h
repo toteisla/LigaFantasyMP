@@ -13,8 +13,12 @@ typedef struct {
     char rosterName[32];
     int rosterMoney;
     int rosterScore;
-    T_Player* rosterPlayers;
 }T_Roster;
+
+typedef struct {
+    int playerID;
+    int rosterID;
+}T_RosterPlayers;
 
 void registerNewRoster( int userID );
 void deleteRoster( int userID );
@@ -22,6 +26,7 @@ void listRosters();
 void listRostersByUserID( int userID );
 void saveRosters();
 void loadRosters();
+void loadRostersPlayers();
 void showRostersRanking();
 void addPlayerToRoster( int userID, int rosterID );
 

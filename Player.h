@@ -20,7 +20,6 @@ void listPlayers();
 void listPlayersByTeam();
 void ratePlayer();
 void buyPlayer();
-char* getPlayerNameByID( int playerID );
-int checkPlayerByID( int playerID );
+T_Player getPlayerByID( int playerID );
 
 #endif // _PLAYER_H_

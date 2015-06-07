@@ -2,13 +2,11 @@
 
 //Private vars
 static T_Config config;
-static int tam; //Size of teams vector
 
 //Public functions
 //Load the user list from 'Configuracion.txt'.
 void loadConfig(){
 	FILE *file;
-	int idx = 0;
 
 	if(( file = fopen( "Configuracion.txt" , "r" )) == NULL ){
 		printf("ERROR: No existe el archivo 'Configuracion.txt'\n");
@@ -40,7 +38,6 @@ void loadConfig(){
 
 //Save the user list to 'Configuracion.txt'.
 void saveConfig(){
-    int i;
     char str[32];
     printf("Guardando.\n");
     FILE *file;

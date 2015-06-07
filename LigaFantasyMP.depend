@@ -25,16 +25,20 @@
 1431615735 source:/home/tote/Documents/LigaFantasyMP/User.c
 	"User.h"
 
-1431610596 source:c:\users\tote\desktop\ligafantasymp\main.c
+1432823632 source:c:\users\tote\desktop\ligafantasymp\main.c
 	<stdlib.h>
 	"User.h"
+	"Team.h"
+	"Player.h"
+	"Config.h"
+	"Roster.h"
 
-1431610221 c:\users\tote\desktop\ligafantasymp\user.h
+1432106144 c:\users\tote\desktop\ligafantasymp\user.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 
-1431610844 source:c:\users\tote\desktop\ligafantasymp\user.c
+1432106144 source:c:\users\tote\desktop\ligafantasymp\user.c
 	"User.h"
 
 1432057819 source:d:\universidad\2014-2015\mp\ligafantasymp\main.c
@@ -85,4 +89,39 @@
 	<stdlib.h>
 	<string.h>
 	"Config.h"
+
+1432107243 source:c:\users\tote\desktop\ligafantasymp\config.c
+	"Config.h"
+
+1432107078 c:\users\tote\desktop\ligafantasymp\config.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1432106144 c:\users\tote\desktop\ligafantasymp\team.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1432107313 c:\users\tote\desktop\ligafantasymp\player.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Team.h"
+
+1432106144 source:c:\users\tote\desktop\ligafantasymp\player.c
+	"Player.h"
+
+1432106144 source:c:\users\tote\desktop\ligafantasymp\team.c
+	"Team.h"
+
+1432824399 source:c:\users\tote\desktop\ligafantasymp\roster.c
+	"Roster.h"
+
+1432824849 c:\users\tote\desktop\ligafantasymp\roster.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Config.h"
+	"Player.h"
 

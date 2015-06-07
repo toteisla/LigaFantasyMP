@@ -3,6 +3,7 @@
 #include "Team.h"
 #include "Player.h"
 #include "Config.h"
+#include "Roster.h"
 
 static void showMainMenu();
 static void showUserMenu();
@@ -12,20 +13,15 @@ static void showAdminMenu();
 static void showAdminMenuUser();
 static void showAdminMenuTeam();
 static void showAdminMenuConfig();
+static void init();
+static void exitProgram();
 
 static T_User user;
 
 int main() {
-    loadUsers();
-    loadTeams();
-    loadPlayers();
-    loadConfig();
-    loadRosters();
+    init();
 
     showMainMenu();
-    //showAdminMenuConfig();
-    //showRefereeMenu();
-    //showUserMenu();
 
 	system("pause");
 	return 0;
@@ -60,10 +56,7 @@ static void showMainMenu(){
                     showUserMenu();
                 break;
             case 3:
-                //saveConfig();
-                //saveTeams();
-                //saveUsers();
-                exit(1);
+                exitProgram();
             default:
                 printf("Opcion incorrecta\n");
                 break;
@@ -91,6 +84,7 @@ static void showUserMenu(){
                 registerNewRoster( user.ID );
                 break;
             case 2:
+                listRostersByUserID( user.ID );
                 showUserMenuConfigRoster();
                 break;
             case 3:
@@ -103,8 +97,7 @@ static void showUserMenu(){
                 showRostersRanking();
                 break;
             case 6:
-                //guardar_stock();guardar_articulos();guardar_almacenes();exit(1);
-                break;
+                exitProgram();
             default:
                 printf("Opcion incorrecta\n");
                 break;
@@ -128,7 +121,7 @@ static void showUserMenuConfigRoster(){
 
         switch( op ){
             case 1:
-                //listRostersByUserID()
+                listRostersByUserID( user.ID );
                 break;
             case 2:
                 listPlayers();
@@ -311,4 +304,23 @@ static void showAdminMenuTeam(){
                 break;
         }
     }while( op != 5 );
+}
+
+static void init(){
+    loadUsers();
+    loadTeams();
+    loadPlayers();
+    loadConfig();
+    loadRosters();
+    loadRostersPlayers();
+}
+
+static void exitProgram(){
+    saveUsers();
+    saveTeams();
+    saveConfig();
+    savePlayers();
+    saveRosters();
+    //saveRostersPlayers();
+    exit(1);
 }

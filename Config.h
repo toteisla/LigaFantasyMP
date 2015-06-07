@@ -19,5 +19,6 @@ int getDefaultInitMoney();
 void setDefaultInitMoney();
 int getMaxPlayersPerTeam();
 void setMaxPlayersPerTeam();
+T_Config getConfig();
 
 #endif // _CONFIG_H_
